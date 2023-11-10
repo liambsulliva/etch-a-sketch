@@ -1,9 +1,12 @@
 // Globals
-const numSquares = 256; // 16 x 16 Default
 const board = document.querySelector('.board');
 const dimensionsBtn = document.querySelector('.dimensions_btn');
-const colorPicker = document.querySelector('.color_picker');
 const resetBtn = document.querySelector('.reset_btn');
+const colorPicker = document.querySelector('.color_picker');
+const sideLen = 16 // 16 Side Length Default
+var numSquares = 256; // 16 x 16 Default
+var color = 'red'; //Default Color
+let isDrawing = false;
 
 // First pass draw
 drawBoard(numSquares);
@@ -14,10 +17,19 @@ function drawBoard (len) {
     for (let i = 0; i < len; i++) {
         const square = document.createElement('div');
         square.className = 'square';
-        board.appendChild(square);
-        square.addEventListener('mouseover', (e) => {
-            square.style.backgroundColor = '#000050';
+        square.addEventListener('mousedown', () => {
+            isDrawing = true;
         });
+        
+        square.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
+        
+        square.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            square.style.backgroundColor = color;
+        });
+        board.appendChild(square);
     }
 }
 
@@ -27,7 +39,6 @@ function clearBoard () {
         board.removeChild(board.firstChild);
     }
 }
-
 
 dimensionsBtn.addEventListener('click', () => {
     const dimensions = prompt('Please enter your desired side length: ');
@@ -41,11 +52,11 @@ dimensionsBtn.addEventListener('click', () => {
 });
 
 colorPicker.addEventListener('click', () => {
-    const color = prompt('Pick a color: ');
-    //! Missing Implementation
+    color = prompt('Pick a color: ');
 });
 
 resetBtn.addEventListener('click', () => {
     clearBoard();
+    board.style.width = sideLen * 38 + 'px';
     drawBoard(numSquares);
 });
