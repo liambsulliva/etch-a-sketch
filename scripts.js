@@ -20,11 +20,9 @@ function drawBoard (len) {
         square.addEventListener('mousedown', () => {
             isDrawing = true;
         });
-        
         square.addEventListener('mouseup', () => {
             isDrawing = false;
         });
-        
         square.addEventListener('mousemove', (e) => {
             if (!isDrawing) return;
             square.style.backgroundColor = color;
